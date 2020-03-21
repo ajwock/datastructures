@@ -81,6 +81,28 @@ class PositionalList {
     return tail->previous;
   }
 
+  /**
+  * Applies a function that takes an argument of a value of type T to a copy
+  * of each value in the list.  Useful for working with primitive types
+  * and pointers.  State contained within the list remains unchanged.
+  */
+  void foreachByValue(void (*apply)(T const value)) {
+    for (Position<t> *curr = first(); curr != tail; curr = curr->next) {
+      apply(curr->value);
+    }
+  }
+
+  /**
+  * Applies a function that takes an argument of a pointer to T to a pointer to
+  * each value in the list.  State within the list may be modified.  Good to use
+  * when the list contains complex objects.
+  */
+  void foreach(void (*apply)(T *const reference)) {
+    for (Position<T> *curr = first(); curr != tail; curr = curr->next) {
+      apply(&curr->value);
+    }
+  }
+
 #ifndef NO_CHECKS
   void error() {
     exit(1);
